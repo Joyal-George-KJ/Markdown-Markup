@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+button {
+    @apply min-w-fit p-2 text-center h-fit pb-2 cursor-pointer;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+button:hover {
+    @apply shadow-md;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+button:hover::after {
+    @apply absolute -bottom-8 bg-neutral-600 text-neutral-200 z-20 -right-2/4 w-fit px-2 rounded-md pb-2 pt-1;
+    content: var(--name);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.highlighter {
+    --name: "highlighter";
+}
+.braces {
+    --name: "braces";
+}
+.image {
+    --name: "image";
+}
+.link {
+    --name: "link";
+}
+.hr {
+    --name: "hr";
+}
+.code {
+    --name: "code";
+}
+.ul {
+    --name: "ul";
+}
+.ol {
+    --name: "ol";
+}
+.quote {
+    --name: "quote";
+}
+.bold {
+    --name: "bold";
+}
+.italic {
+    --name: "italic";
+}
+.paragraph {
+    --name: "paragraph";
 }
