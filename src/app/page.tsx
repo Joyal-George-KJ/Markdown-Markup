@@ -179,16 +179,17 @@ export default function Home() {
 
                 {/* Markdown Input */}
                 <textarea
-                    className="rounded-md text-neutral-800 font-medium resize-none outline-0 p-4 pt-14 w-full"
+                    className="rounded-md text-neutral-800 resize-none outline-0 p-4 pt-14 w-full"
                     name="markdown-input"
                     id="markdown-input"
+                    aria-label="markdown input"
+                    spellCheck="false"
                     placeholder="Write What you want here!"
                     rows={10}
                     cols={100}
                     ref={InputRef}
                     value={md}
                     onChange={(e) => {
-                        console.log(e.target.value);
                         setMd(e.target.value);
                     }}
                 ></textarea>
