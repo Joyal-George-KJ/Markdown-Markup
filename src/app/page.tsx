@@ -10,9 +10,15 @@ export default function Home() {
       console.log(InputRef)
     }, [])
     
-    const handleClick = (): void => {
-      console.log("Hey");
-    }
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        if (InputRef.current) {
+            let textArea = InputRef.current as HTMLTextAreaElement;
+            let start = textArea.selectionStart;
+            let end = textArea.selectionEnd;
+            setMd(createMd(e.currentTarget.id, start, end, true));
+            console.log(e.currentTarget.id);
+        }
+    };
 
     return (
         <div className="w-screen h-fit p-4">
