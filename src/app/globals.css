@@ -9,43 +9,46 @@ button:hover {
 }
 
 button:hover::after {
-    @apply absolute -bottom-8 bg-neutral-600 text-neutral-200 z-20 -right-2/4 w-fit px-2 rounded-md pb-2 pt-1;
+    @apply capitalize absolute translate-x-2/4 left-2/4 -bottom-10 bg-neutral-100 text-neutral-800 dark:bg-neutral-600 dark:text-neutral-200 z-20 min-w-max px-2 rounded-md pb-2 pt-1;
     content: var(--name);
 }
 
-.highlighter {
-    --name: "highlighter";
+.highlight {
+    --name: "Highlighter";
 }
 .braces {
-    --name: "braces";
+    --name: "Multi Line Code";
 }
 .image {
-    --name: "image";
+    --name: "Image";
 }
 .link {
     --name: "link";
 }
 .hr {
-    --name: "hr";
+    --name: "Horizontal Line";
 }
 .code {
-    --name: "code";
+    --name: "Single Line Code";
 }
 .ul {
-    --name: "ul";
+    --name: "Un-ordered List";
 }
 .ol {
-    --name: "ol";
+    --name: "Ordered List";
 }
-.quote {
-    --name: "quote";
+.q {
+    --name: "Quote";
 }
-.bold {
-    --name: "bold";
+.b {
+    --name: "Bold";
 }
-.italic {
-    --name: "italic";
+.i {
+    --name: "Italic";
 }
-.paragraph {
-    --name: "paragraph";
+.p {
+    --name: "Paragraph";
+}
+.preview {
+    --name: "preview";
 }
