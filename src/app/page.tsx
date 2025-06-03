@@ -18,6 +18,7 @@ export default function Home() {
         <div className="w-screen h-fit p-4">
             {/* Markdown Buttons  */}
             <div className="relative border-4 border-neutral-300">
+                <div className="absolute top-0 flex justify-between w-full">
                     <div>
                         {[
                             "p",
@@ -50,7 +51,6 @@ export default function Home() {
                             </button>
                     </div>
                 </div>
-
 
                 {/* Markdown Input */}
                 <textarea
