@@ -41,6 +41,14 @@ export default function Home() {
                             </button>
                         ))}
                     </div>
+                    <div>
+                        <button onClick={handleClick} className='preview'>
+                                <Image
+                                    src={require(`../public/Image/play-fill.svg`)}
+                                    alt={`Icon preview`}
+                                />
+                            </button>
+                    </div>
                 </div>
 
 
