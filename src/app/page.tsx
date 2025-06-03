@@ -2,136 +2,117 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import Preview from "./Preview";
 
 export default function Home() {
     const InputRef = useRef(null);
     const [md, setMd] = useState("");
+    const [previewToggle, setPreviewToggle] = useState(false);
 
-    const createMd = (
-        key: string,
-        start: number,
-        end: number,
-        both: boolean
-    ): string => {
+    const createMd = (key: string, start: number, end: number): string => {
         let val: string = "";
-        if (both && start !== end) {
+        if (start !== end) {
             switch (key) {
-                case "p":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "####### " +
-                        md.slice(start, end) +
-                        " #######\n";
-                    break;
                 case "h1":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "# " +
+                        "\n# " +
                         md.slice(start, end) +
-                        " #\n";
+                        " \n";
                     break;
                 case "h2":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "## " +
+                        "\n## " +
                         md.slice(start, end) +
-                        " ##\n";
+                        " \n";
                     break;
                 case "h3":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "### " +
+                        "\n### " +
                         md.slice(start, end) +
-                        " ###\n";
+                        " \n";
                     break;
                 case "h4":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "#### " +
+                        "\n#### " +
                         md.slice(start, end) +
-                        " ####\n";
+                        " \n";
                     break;
                 case "h5":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "##### " +
+                        "\n##### " +
                         md.slice(start, end) +
-                        " #####\n";
+                        " \n";
                     break;
                 case "h6":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "###### " +
+                        "\n###### " +
                         md.slice(start, end) +
-                        " ######\n";
-                    break;
-                case "q":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        '" ' +
-                        md.slice(start, end) +
-                        ` "\n`;
+                        " \n";
                     break;
                 case "i":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "~ " +
+                        "* " +
                         md.slice(start, end) +
-                        " ~\n";
+                        " *";
                     break;
                 case "b":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "* " +
+                        "** " +
                         md.slice(start, end) +
-                        " *\n";
+                        " **";
                     break;
                 case "highlight":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
                         "=== " +
                         md.slice(start, end) +
-                        " ===\n";
+                        " ===";
                     break;
                 case "hr":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "_ " +
-                        md.slice(start, end) +
-                        " _\n";
+                        "\n---\n" +
+                        md.slice(start, end);
                     break;
                 case "code":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "` " +
+                        "\n` " +
                         md.slice(start, end) +
                         " `\n";
                     break;
                 case "braces":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "``` " +
+                        "\n``` " +
                         md.slice(start, end) +
                         " ```\n";
                     break;
-                default:
-                    break;
-            }
-        } else if (!both && start !== end) {
-            switch (key) {
                 case "link":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "a: " +
                         md.slice(start, end) +
-                        " (link)[alt text]\n";
+                        "![title](link)";
+                    break;
+                case "q":
+                    val =
+                        md.slice(0, start !== 0 ? start - 1 : 0) +
+                        "> " +
+                        md.slice(start, end);
                     break;
                 case "image":
                     val =
                         md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "img: " +
                         md.slice(start, end) +
-                        " (Image Link)[alt text]\n";
+                        "\n![alt text](image.jpg)\n";
                     break;
                 case "ol":
                     val =
@@ -147,15 +128,16 @@ export default function Home() {
                         md.slice(start, end) +
                         " \n";
                     break;
-
                 default:
                     break;
             }
         } else {
             return md;
         }
+        console.log(val + md.slice(end, val.length + (md.length - end)));
+        
 
-        return val;
+        return val + md.slice(end, val.length + (md.length - end));
     };
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -163,24 +145,7 @@ export default function Home() {
             let textArea = InputRef.current as HTMLTextAreaElement;
             let start = textArea.selectionStart;
             let end = textArea.selectionEnd;
-            setMd(
-                createMd(
-                    e.currentTarget.id,
-                    start,
-                    end,
-                    [
-                        "p",
-                        "i",
-                        "b",
-                        "highlight",
-                        "q",
-                        "braces",
-                        "code",
-                        "hr",
-                    ].includes(e.currentTarget.id)
-                )
-            );
-            console.log(e.currentTarget.id);
+            setMd(createMd(e.currentTarget.id, start, end));
         }
     };
 
@@ -191,7 +156,12 @@ export default function Home() {
                 <div className="absolute top-0 flex justify-between w-full">
                     <div>
                         {[
-                            "p",
+                            "h1",
+                            "h2",
+                            "h3",
+                            "h4",
+                            "h5",
+                            "h6",
                             "i",
                             "b",
                             "link",
@@ -218,7 +188,7 @@ export default function Home() {
                         ))}
                     </div>
                     <div>
-                        <button onClick={handleClick} className="preview">
+                        <button onClick={() => setPreviewToggle(!previewToggle)} className="preview">
                             <Image
                                 src={require(`../public/Image/play-fill.svg`)}
                                 alt={`Icon preview`}
@@ -226,6 +196,10 @@ export default function Home() {
                         </button>
                     </div>
                 </div>
+
+                {
+                    previewToggle && <Preview setPreviewToggle={setPreviewToggle} previewToggle={previewToggle} md={md} />
+                }
 
                 {/* Markdown Input */}
                 <textarea
