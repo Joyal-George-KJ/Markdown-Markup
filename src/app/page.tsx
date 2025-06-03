@@ -6,9 +6,53 @@ export default function Home() {
     const InputRef = useRef(null);
     const [md, setMd] = useState("");
 
-    useEffect(() => {
-      console.log(InputRef)
-    }, [])
+    const createMd = (key: string, start: number, end: number, both: boolean): string => {
+        let val: string = '';
+        if ( both && start !== end ) {
+            switch (key) {
+                case 'p':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '####### ' + md.slice(start, end) + " #######\n";
+                    break;
+                case 'h1':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '# ' + md.slice(start, end) + " #\n";
+                    break;
+                case 'h2':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '## ' + md.slice(start, end) + " ##\n";
+                    break;
+                case 'h3':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '### ' + md.slice(start, end) + " ###\n";
+                    break;
+                case 'h4':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '#### ' + md.slice(start, end) + " ####\n";
+                    break;
+                case 'h5':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '##### ' + md.slice(start, end) + " #####\n";
+                    break;
+                case 'h6':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '###### ' + md.slice(start, end) + " ######\n";
+                    break;
+                case 'q':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '" ' + md.slice(start, end) + ` "\n`;
+                    break;
+                case 'i':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '~ ' + md.slice(start, end) + " ~\n";
+                    break;
+                case 'b':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '* ' + md.slice(start, end) + " *\n";
+                    break;
+                case 'highlight':
+                    val = md.slice(0, start !== 0 ? start - 1: 0) + '=== ' + md.slice(start, end) + " ===\n";
+                    break;
+            
+                default:
+                    break;
+            }
+        } else {
+            return md;
+        }
+        
+        return val;
+    }
     
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (InputRef.current) {
