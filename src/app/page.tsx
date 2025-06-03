@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useRef, useState } from "react";
 
 export default function Home() {
     const InputRef = useRef(null);
@@ -53,7 +54,7 @@ export default function Home() {
         
         return val;
     }
-    
+
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (InputRef.current) {
             let textArea = InputRef.current as HTMLTextAreaElement;
