@@ -9,145 +9,33 @@ export default function Home() {
     const [md, setMd] = useState("");
     const [previewToggle, setPreviewToggle] = useState(false);
 
-    const createMd = (key: string, start: number, end: number): string => {
-        let val: string = "";
-        if (start !== end) {
-            switch (key) {
-                case "h1":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n# " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                case "h2":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n## " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                case "h3":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n### " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                case "h4":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n#### " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                case "h5":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n##### " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                case "h6":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n###### " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                case "i":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "* " +
-                        md.slice(start, end) +
-                        " *";
-                    break;
-                case "b":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "** " +
-                        md.slice(start, end) +
-                        " **";
-                    break;
-                case "highlight":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "=== " +
-                        md.slice(start, end) +
-                        " ===";
-                    break;
-                case "hr":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n---\n" +
-                        md.slice(start, end);
-                    break;
-                case "code":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n` " +
-                        md.slice(start, end) +
-                        " `\n";
-                    break;
-                case "braces":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "\n``` " +
-                        md.slice(start, end) +
-                        " ```\n";
-                    break;
-                case "link":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        md.slice(start, end) +
-                        "![title](link)";
-                    break;
-                case "q":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "> " +
-                        md.slice(start, end);
-                    break;
-                case "image":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        md.slice(start, end) +
-                        "\n![alt text](image.jpg)\n";
-                    break;
-                case "ol":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "> " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                case "ul":
-                    val =
-                        md.slice(0, start !== 0 ? start - 1 : 0) +
-                        "- " +
-                        md.slice(start, end) +
-                        " \n";
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            return md;
-        }
-        console.log(val + md.slice(end, val.length + (md.length - end)));
-        
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const key = e.currentTarget.id;
+    if (!inputRef.current) return;
 
-        return val + md.slice(end, val.length + (md.length - end));
-    };
+    const textarea = inputRef.current;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (InputRef.current) {
-            let textArea = InputRef.current as HTMLTextAreaElement;
-            let start = textArea.selectionStart;
-            let end = textArea.selectionEnd;
-            setMd(createMd(e.currentTarget.id, start, end));
-        }
-    };
+    const selected = md.slice(start, end);
+    const formatter = markdownShortcuts[key];
+
+    if (!formatter) return;
+
+    const newMd =
+      md.slice(0, start) +
+      formatter(selected) +
+      md.slice(end);
+
+    setMd(newMd);
+
+    // Optional: re-focus and reset cursor
+    setTimeout(() => {
+      textarea.focus();
+      textarea.selectionStart = textarea.selectionEnd =
+        start + formatter(selected).length;
+    }, 0);
+  };
 
     return (
         <div className="w-screen h-fit p-4">
