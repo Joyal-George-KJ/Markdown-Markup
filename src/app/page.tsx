@@ -28,9 +28,9 @@ const markdownShortcuts: Record<
 };
 
 export default function Home() {
-    const InputRef = useRef(null);
-    const [md, setMd] = useState("");
-    const [previewToggle, setPreviewToggle] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const [md, setMd] = useState("Something on progress and is going well");
+  const [previewToggle, setPreviewToggle] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const key = e.currentTarget.id;
