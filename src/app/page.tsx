@@ -4,6 +4,29 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import Preview from "./Preview";
 
+const markdownShortcuts: Record<
+  string,
+  (selected: string) => string
+> = {
+  h1: (s) => `\n#${s}\n`,
+  h2: (s) => `\n##${s}\n`,
+  h3: (s) => `\n###${s}\n`,
+  h4: (s) => `\n####${s}\n`,
+  h5: (s) => `\n#####${s}\n`,
+  h6: (s) => `\n######${s}\n`,
+  b: (s) => `**${s}**`,
+  i: (s) => `*${s}*`,
+  highlight: (s) => `===${s}===`,
+  hr: () => `\n---\n`,
+  code: (s) => `\`${s}\``,
+  braces: (s) => `\n\`\`\`\n${s}\n\`\`\`\n`,
+  link: (s) => `[${s || "title"}](https://example.com)`,
+  image: (s) => `![${s || "alt text"}](image.jpg)`,
+  q: (s) => `>${s}`,
+  ol: (s) => `1.${s}`,
+  ul: (s) => `-${s}`,
+};
+
 export default function Home() {
     const InputRef = useRef(null);
     const [md, setMd] = useState("");
