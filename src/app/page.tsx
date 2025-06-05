@@ -60,75 +60,60 @@ export default function Home() {
     }, 0);
   };
 
-    return (
-        <div className="w-screen h-fit p-4">
-            {/* Markdown Buttons  */}
-            <div className="relative border-4 border-neutral-300">
-                <div className="absolute top-0 flex justify-between w-full">
-                    <div>
-                        {[
-                            "h1",
-                            "h2",
-                            "h3",
-                            "h4",
-                            "h5",
-                            "h6",
-                            "i",
-                            "b",
-                            "link",
-                            "image",
-                            "highlight",
-                            "q",
-                            "braces",
-                            "code",
-                            "hr",
-                            "ol",
-                            "ul",
-                        ].map((val, ind) => (
-                            <button
-                                key={ind}
-                                onClick={handleClick}
-                                className={val}
-                                id={val}
-                            >
-                                <Image
-                                    src={require(`../public/Image/${val}.svg`)}
-                                    alt={`Icon ${val}`}
-                                />
-                            </button>
-                        ))}
-                    </div>
-                    <div>
-                        <button onClick={() => setPreviewToggle(!previewToggle)} className="preview">
-                            <Image
-                                src={require(`../public/Image/play-fill.svg`)}
-                                alt={`Icon preview`}
-                            />
-                        </button>
-                    </div>
-                </div>
-
-                {
-                    previewToggle && <Preview setPreviewToggle={setPreviewToggle} previewToggle={previewToggle} md={md} />
-                }
-
-                {/* Markdown Input */}
-                <textarea
-                    className="rounded-md text-neutral-800 resize-none outline-0 p-4 pt-14 w-full"
-                    name="markdown-input"
-                    id="markdown-input"
-                    aria-label="markdown input"
-                    spellCheck="false"
-                    placeholder="Write What you want here!"
-                    rows={10}
-                    cols={100}
-                    ref={InputRef}
-                    value={md}
-                    onChange={(e) => {
-                        setMd(e.target.value);
-                    }}
-                ></textarea>
-            </div>
+  return (
+    <div className="w-screen h-fit p-4">
+      <div className="relative border-4 border-neutral-300">
+        <div className="absolute top-0 flex justify-between w-full bg-white px-2 py-1">
+          <div className="flex flex-wrap gap-1">
+            {Object.keys(markdownShortcuts).map((val, ind) => (
+              <button
+                key={ind}
+                onClick={handleClick}
+                className="hover:bg-neutral-200 p-1 rounded"
+                id={val}
+              >
+                <Image
+                  src={require(`../public/Image/${val}.svg`)}
+                  alt={`Icon ${val}`}
+                />
+              </button>
+            ))}
+          </div>
+          <div>
+            <button
+              onClick={() => setPreviewToggle(!previewToggle)}
+              className="preview hover:bg-neutral-200 p-1 rounded"
+            >
+              <Image
+                src={require(`../public/Image/play-fill.svg`)}
+                alt="Preview"
+              />
+            </button>
+          </div>
         </div>
-    );
+
+        {previewToggle && (
+          <Preview
+            setPreviewToggle={setPreviewToggle}
+            previewToggle={previewToggle}
+            md={md}
+          />
+        )}
+
+        <textarea
+          ref={inputRef}
+          value={md}
+          onChange={(e) => setMd(e.target.value)}
+          className="rounded-md text-neutral-800 resize-none outline-0 p-4 pt-14 w-full"
+          name="markdown-input"
+          id="markdown-input"
+          aria-label="markdown input"
+          spellCheck="false"
+          placeholder="Write what you want here!"
+          rows={10}
+          cols={100}
+        ></textarea>
+      </div>
+    </div>
+  );
 }
