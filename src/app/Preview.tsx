@@ -14,6 +14,13 @@ export default function Preview({
     const pageRef = useRef<HTMLDivElement>(null);
 
     function customMarkdownToHTML(md: string): string {
+        function escapeHTML(str: string): string {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        }
+
         let html = md;
 
         // Code block (triple backticks)
