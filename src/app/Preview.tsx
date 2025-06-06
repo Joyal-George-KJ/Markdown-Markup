@@ -25,39 +25,39 @@ export default function Preview({
 
         // Code block (triple backticks)
         html = html.replace(
-            /```[\s\n]?([\s\S]*?)```/gim,
-            "<pre><code>$1</code></pre>"
+            /```[\s\n]?([\s\S]*?)```/gim, (_, code) =>
+            `<pre><code>${escapeHTML(code)}</code></pre>`
         );
 
         // Inline code
-        html = html.replace(/`([^`]+)`/gim, "<code>$1</code>");
+        html = html.replace(/`([^`]+)`/gim, (_, code) => `<code>${escapeHTML(code)}</code>`);
 
         // Horizontal rule
         html = html.replace(/^\s*---\s*$/gim, "<hr>");
 
         // Headings (h6 to h1)
-        html = html.replace(/^###### (.*)$/gim, "<h6>$1</h6>");
-        html = html.replace(/^##### (.*)$/gim, "<h5>$1</h5>");
-        html = html.replace(/^#### (.*)$/gim, "<h4>$1</h4>");
-        html = html.replace(/^### (.*)$/gim, "<h3>$1</h3>");
-        html = html.replace(/^## (.*)$/gim, "<h2>$1</h2>");
-        html = html.replace(/^# (.*)$/gim, "<h1>$1</h1>");
+        html = html.replace(/^###### (.*)$/gim, (_, code) => `<h6>${escapeHTML(code)}</h6>`);
+        html = html.replace(/^##### (.*)$/gim, (_, code) => `<h5>${escapeHTML(code)}</h5>`);
+        html = html.replace(/^#### (.*)$/gim, (_, code) => `<h4>${escapeHTML(code)}</h4>`);
+        html = html.replace(/^### (.*)$/gim, (_, code) => `<h3>${escapeHTML(code)}</h3>`);
+        html = html.replace(/^## (.*)$/gim, (_, code) => `<h2>${escapeHTML(code)}</h2>`);
+        html = html.replace(/^# (.*)$/gim, (_, code) => `<h1>${escapeHTML(code)}</h1>`);
 
         // Highlight (custom ===highlight===)
-        html = html.replace(/===(.*?)===/gim, "<mark>$1</mark>");
+        html = html.replace(/===(.*?)===/gim, (_, code) => `<mark>${escapeHTML(code)}</mark>`);
 
         // Bold and Italic
-        html = html.replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>");
-        html = html.replace(/\*(.*?)\*/gim, "<em>$1</em>");
+        html = html.replace(/\*\*(.*?)\*\*/gim, (_, code) => `<strong>${escapeHTML(code)}</strong>`);
+        html = html.replace(/\*(.*?)\*/gim, (_, code) => `<em>${escapeHTML(code)}</em>`);
 
         // Blockquote
-        html = html.replace(/^> ?(.*)$/gim, "<blockquote>$1</blockquote>");
+        html = html.replace(/^> ?(.*)$/gim, (_, code) => `<blockquote>${escapeHTML(code)}</blockquote>`);
 
         // Ordered list (1. item)
-        html = html.replace(/^\d+\.+(.*)/gim, "<ol><li>$1</li></ol>");
+        html = html.replace(/^\d+\.+(.*)/gim, (_, code) => `<ol><li>${escapeHTML(code)}</li></ol>`);
 
         // Unordered list (- item)
-        html = html.replace(/^\-+(.*)/gim, "<ul><li>$1</li></ul>");
+        html = html.replace(/^\-+(.*)/gim, (_, code) => `<ul><li>${escapeHTML(code)}</li></ul>`);
 
         // Links
         html = html.replace(
@@ -72,8 +72,8 @@ export default function Preview({
         );
 
         // Line breaks
-        html = html.replace(/\n{2,}/g, "</p><p>");
-        html = `<p>${html}</p>`;
+        html = html.replace(/\n{2,}/g, (_, code) => `<p>${escapeHTML(code)}</p>`);
+        html = `<p>${escapeHTML(html)}</p>`;
         html = html.replace(/<p><\/p>/g, ""); // Clean up empty <p> blocks
 
         return html.trim();
