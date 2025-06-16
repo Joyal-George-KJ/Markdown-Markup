@@ -2,21 +2,17 @@
 
 import { useEffect, useRef } from "react";
 
-type EffectProp = {
-    height: number;
-    width: number;
-    count: number;
-    direction?:
-        | "none"
-        | "left"
-        | "right"
-        | "up"
-        | "down"
-        | "upleft"
-        | "upright"
-        | "downright"
-        | "downleft"
-        | "random";
+type Direction =
+    | "none"
+    | "left"
+    | "right"
+    | "up"
+    | "down"
+    | "upleft"
+    | "upright"
+    | "downright"
+    | "downleft"
+    | "random";
     speed?: number;
 };
 
