@@ -1,8 +1,8 @@
 "use client";
 
-import { CSSProperties, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-type Direction =
+export type Direction =
     | "none"
     | "left"
     | "right"
@@ -14,7 +14,15 @@ type Direction =
     | "downleft"
     | "random";
 
-interface EffectProp {
+export interface DataType {
+    count: number;
+    direction: Direction;
+    speed: number;
+    flakeColor: string;
+    bgColor: string;
+}
+
+export interface EffectProp {
     height: number;
     width: number;
     count: number;
@@ -24,7 +32,7 @@ interface EffectProp {
     flakeColor?: string;
 }
 
-interface Flake {
+export interface Flake {
     x: number;
     y: number;
     r: number;
