@@ -1,54 +1,107 @@
-@import "tailwindcss";
-
-button {
-    @apply min-w-fit p-2 text-center h-fit pb-2 cursor-pointer;
+body {
+    margin: 0;
 }
 
-button:hover {
-    @apply shadow-md;
+.form-group.heading {
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
 }
 
-button:hover::after {
-    @apply capitalize absolute translate-x-2/4 left-2/4 -bottom-10 bg-neutral-100 text-neutral-800 dark:bg-neutral-600 dark:text-neutral-200 z-20 min-w-max px-2 rounded-md pb-2 pt-1;
-    content: var(--name);
+.panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(30, 30, 30, 0.95);
+    color: #f0f0f0;
+    padding: 20px;
+    border-radius: 12px;
+    /* width: 280px; */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    font-family: "Segoe UI", sans-serif;
 }
 
-.highlight {
-    --name: "Highlighter";
+.panel h2 {
+    margin-top: 0;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 16px;
+    color: #00ffff;
 }
-.braces {
-    --name: "Multi Line Code";
+
+.form-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
 }
-.image {
-    --name: "Image";
+
+label {
+    flex: 1;
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 14px;
+    width: fit-content;
 }
-.link {
-    --name: "link";
+
+input,
+select {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #1e1e1e;
+    color: #fff;
 }
-.hr {
-    --name: "Horizontal Line";
+
+input[type="color"] {
+    padding: 0;
+    height: 32px;
+    width: 100%;
 }
-.code {
-    --name: "Single Line Code";
+
+select option {
+    background: #1e1e1e;
+    color: #fff;
 }
-.ul {
-    --name: "Un-ordered List";
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background: #00ffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    transition: 0.2s;
 }
-.ol {
-    --name: "Ordered List";
+
+.submit-btn:hover {
+    background: #00dddd;
 }
-.q {
-    --name: "Quote";
+
+button[type="button"] {
+    background-color: transparent;
+    outline: 0;
+    border: 0;
+    color: white;
+    padding: 4px 8px 2px;
+    border-radius: 4px;
 }
-.b {
-    --name: "Bold";
+
+button[type="button"].direction {
+    background-color: transparent;
+    outline: 0;
+    border: 1px solid rgb(47, 47, 47);
+    color: white;
+    padding: 4px 8px 2px;
+    border-radius: 4px;
 }
-.i {
-    --name: "Italic";
-}
-.p {
-    --name: "Paragraph";
-}
-.preview {
-    --name: "preview";
+
+button[type="button"].direction:hover {
+    background-color: black;
+    cursor: pointer;
+
 }
