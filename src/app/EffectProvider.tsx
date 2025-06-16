@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { CSSProperties, useEffect, useRef } from "react";
 
 type Direction =
     | "none"
@@ -35,146 +35,141 @@ export default function EffectProvider({
     height,
     width,
     count,
-    direction,
-    speed,
+    direction = "left",
+    speed = 0.1,
+    bgColor = "white",
+    flakeColor = "black",
 }: EffectProp) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const flakesRef = useRef<Flake[]>([]);
 
+    const speedRef = useRef(speed);
+    const directionRef = useRef(direction);
+
     useEffect(() => {
-        if (height === 0 && width === 0) return;
+        speedRef.current = speed;
+        directionRef.current = direction;
+    }, [speed, direction]);
 
-        const myCanvas = canvasRef.current;
-        if (!myCanvas) return;
+    const generateFlakes = () => {
+        flakesRef.current = Array.from({ length: count }, () => {
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+            const r = Math.random() * 5 + 1;
+            return {
+                x,
+                y,
+                r,
+                direction:
+                    direction === "random" ? getRandomDirection() : direction,
+            };
+        });
+    };
 
-        myCanvas.height = height;
-        myCanvas.width = width;
+    const getRandomDirection = (): Direction => {
+        const directions: Direction[] = [
+            "left",
+            "right",
+            "up",
+            "down",
+            "upleft",
+            "upright",
+            "downleft",
+            "downright",
+        ];
+        return directions[Math.floor(Math.random() * directions.length)];
+    };
 
-        const ctrl = myCanvas.getContext("2d");
-        if (!ctrl) return;
+    useEffect(() => {
+        generateFlakes();
+    }, [count, width, height, direction, speed, bgColor, flakeColor]);
 
-        const positionPicker = () => {
-            for (let i = 0; i < count; i++) {
-                let [x, y, r] = [
-                    Math.floor(Math.random() * width),
-                    Math.floor(Math.random() * height),
-                    Math.floor(Math.random() * 5),
-                ];
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas || height === 0 || width === 0) return;
 
-                if (x <= width && y <= height) {
-                    console.log(i, x, y, r);
-                    flakesRef.current.push({
-                        x: x,
-                        y: y,
-                        r: r,
-                        direction: direction ? direction : "left",
-                    });
-                } else {
-                    --i;
-                }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        const draw = () => {
+            ctx.clearRect(0, 0, width, height);
+            for (const flake of flakesRef.current) {
+                ctx.beginPath();
+                ctx.arc(flake.x, flake.y, flake.r, 0, 2 * Math.PI);
+                ctx.fillStyle = flakeColor;
+                ctx.fill();
+                ctx.closePath();
             }
         };
-        positionPicker();
 
-        const drawShape = () => {
-            ctrl.clearRect(0, 0, width, height);
-            flakesRef.current.map((val) => {
-                ctrl.beginPath();
-                ctrl.arc(val.x, val.y, val.r, 0, 2 * Math.PI);
-                ctrl.fillStyle = "white";
-                ctrl.fill();
-                ctrl.closePath();
-            });
-        };
-        drawShape();
-
-        const moveShape = () => {
-            flakesRef.current.map((val) => {
-                switch (val.direction) {
+        const move = () => {
+            for (const flake of flakesRef.current) {
+                switch (flake.direction) {
                     case "left":
-                        val.x -= speed ? speed : 0.1;
-                        if (val.x < 0) {
-                            val.x = width;
-                            val.y = Math.floor(Math.random() * height);
-                        }
+                        flake.x -= speed;
+                        if (flake.x < 0) flake.x = width;
                         break;
                     case "right":
-                        val.x += speed ? speed : 0.1;
-                        if (val.x > width) {
-                            val.x = 0;
-                            val.y = Math.floor(Math.random() * height);
-                        }
+                        flake.x += speed;
+                        if (flake.x > width) flake.x = 0;
                         break;
                     case "up":
-                        val.y -= speed ? speed : 0.1;
-                        if (val.y < 0) {
-                            val.y = height;
-                            val.x = Math.floor(Math.random() * height);
-                        }
+                        flake.y -= speed;
+                        if (flake.y < 0) flake.y = height;
                         break;
                     case "down":
-                        val.y += speed ? speed : 0.1;
-                        if (val.y > height) {
-                            val.y = 0;
-                            val.x = Math.floor(Math.random() * height);
-                        }
+                        flake.y += speed;
+                        if (flake.y > height) flake.y = 0;
                         break;
                     case "upleft":
-                        val.x -= speed ? speed : 0.1;
-                        val.y -= speed ? speed : 0.1;
-                        if (val.y < 0 || val.x < 0) {
-                            val.y = height;
-                            val.x = Math.floor(Math.random() * width);
+                        flake.x -= speed;
+                        flake.y -= speed;
+                        if (flake.x < 0 || flake.y < 0) {
+                            flake.x = Math.random() * width;
+                            flake.y = height;
                         }
                         break;
                     case "upright":
-                        val.x += speed ? speed : 0.1;
-                        val.y += speed ? speed : 0.1;
-                        if (val.y > height || val.x > width) {
-                            val.x = Math.floor(
-                                Math.random() * width - width / 2
-                            );
-                            val.y = Math.floor(
-                                Math.random() * height - height / 2
-                            );
+                        flake.x += speed;
+                        flake.y -= speed;
+                        if (flake.x > width || flake.y < 0) {
+                            flake.x = Math.random() * width;
+                            flake.y = height;
                         }
                         break;
                     case "downleft":
-                        val.x -= speed ? speed : 0.1;
-                        val.y += speed ? speed : 0.1;
-                        if (val.y > height || val.x < 0) {
-                            val.x = Math.floor(Math.random() * width);
-                            val.y = Math.floor(
-                                Math.random() * height - height / 2
-                            );
+                        flake.x -= speed;
+                        flake.y += speed;
+                        if (flake.x < 0 || flake.y > height) {
+                            flake.x = Math.random() * width;
+                            flake.y = 0;
                         }
                         break;
                     case "downright":
-                        val.x += speed ? speed : 0.1;
-                        val.y -= speed ? speed : 0.1;
-                        if (val.x > width || val.y < 0) {
-                            val.y = Math.floor(Math.random() * height);
-                            val.x = Math.floor(Math.random() * width);
+                        flake.x += speed;
+                        flake.y += speed;
+                        if (flake.x > width || flake.y > height) {
+                            flake.x = Math.random() * width;
+                            flake.y = 0;
                         }
                         break;
                     case "none":
                         break;
-
-                    default:
-                        break;
                 }
-
-                drawShape();
-            });
-            requestAnimationFrame(moveShape);
+            }
+            draw();
+            requestAnimationFrame(move);
         };
-        moveShape();
-    }, [width, height]);
+
+        move();
+    }, [width, height, speed, flakeColor]);
 
     return (
         <canvas
             ref={canvasRef}
-            style={{ display: "block", backgroundColor: "black" }}
+            style={{ display: "block", backgroundColor: bgColor }}
         />
     );
 }
