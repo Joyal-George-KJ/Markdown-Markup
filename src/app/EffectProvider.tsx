@@ -13,25 +13,23 @@ type Direction =
     | "downright"
     | "downleft"
     | "random";
-    speed?: number;
-};
 
-type Flake = {
+interface EffectProp {
+    height: number;
+    width: number;
+    count: number;
+    direction?: Direction;
+    speed?: number;
+    bgColor?: string;
+    flakeColor?: string;
+}
+
+interface Flake {
     x: number;
     y: number;
     r: number;
-    direction:
-        | "none"
-        | "left"
-        | "right"
-        | "up"
-        | "down"
-        | "upleft"
-        | "upright"
-        | "downright"
-        | "downleft"
-        | "random";
-};
+    direction: Direction;
+}
 
 export default function EffectProvider({
     height,
