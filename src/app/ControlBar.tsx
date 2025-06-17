@@ -241,7 +241,19 @@ export default function ControlBar({
                         })
                     }
                 />
-                <output>{tempData.count}</output>
+                <input
+                    type="number"
+                    min={1}
+                    max={100}
+                    name="count"
+                    onChange={(e) =>
+                        setTempData({
+                            ...tempData,
+                            count: Number(e.target.value),
+                        })
+                    }
+                    value={tempData.count}
+                ></input>
             </div>
 
             <div className="form-group">
@@ -260,27 +272,49 @@ export default function ControlBar({
                         })
                     }
                 />
-                <output>{tempData.speed.toFixed(2)}</output>
+                <input
+                    type="number"
+                    step="any"
+                    name="speed"
+                    onChange={(e) =>
+                        setTempData({
+                            ...tempData,
+                            speed: Number(e.target.value),
+                        })
+                    }
+                    value={tempData.speed.toFixed(2)}
+                ></input>
             </div>
 
             <div className="form-group">
                 <label htmlFor="direction">Direction</label>
-                    {[
-                        "none",
-                        "random",
-                        "left",
-                        "right",
-                        "up",
-                        "down",
-                        "upleft",
-                        "upright",
-                        "downleft",
-                        "downright",
-                    ].map((dir) => (
-                        <button type="button" className="direction" key={dir} onClick={(e) => setTempData({...tempData, direction: dir as Direction})}>
-                            {directionSVG[dir]}
-                        </button>
-                    ))}
+                {[
+                    "none",
+                    "random",
+                    "left",
+                    "right",
+                    "up",
+                    "down",
+                    "upleft",
+                    "upright",
+                    "downleft",
+                    "downright",
+                ].map((dir) => (
+                    <button
+                        type="button"
+                        className="direction"
+                        id="direction"
+                        key={dir}
+                        onClick={(e) =>
+                            setTempData({
+                                ...tempData,
+                                direction: dir as Direction,
+                            })
+                        }
+                    >
+                        {directionSVG[dir]}
+                    </button>
+                ))}
             </div>
 
             <button type="submit" className="submit-btn">
