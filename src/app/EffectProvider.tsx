@@ -116,48 +116,48 @@ export default function EffectProvider({
             for (const flake of flakesRef.current) {
                 switch (flake.direction) {
                     case "left":
-                        flake.x -= speed;
+                        flake.x -= speedRef.current;
                         if (flake.x < 0) flake.x = width;
                         break;
                     case "right":
-                        flake.x += speed;
+                        flake.x += speedRef.current;
                         if (flake.x > width) flake.x = 0;
                         break;
                     case "up":
-                        flake.y -= speed;
+                        flake.y -= speedRef.current;
                         if (flake.y < 0) flake.y = height;
                         break;
                     case "down":
-                        flake.y += speed;
+                        flake.y += speedRef.current;
                         if (flake.y > height) flake.y = 0;
                         break;
                     case "upleft":
-                        flake.x -= speed;
-                        flake.y -= speed;
+                        flake.x -= speedRef.current;
+                        flake.y -= speedRef.current;
                         if (flake.x < 0 || flake.y < 0) {
                             flake.x = Math.random() * width;
                             flake.y = height;
                         }
                         break;
                     case "upright":
-                        flake.x += speed;
-                        flake.y -= speed;
+                        flake.x += speedRef.current;
+                        flake.y -= speedRef.current;
                         if (flake.x > width || flake.y < 0) {
                             flake.x = Math.random() * width;
                             flake.y = height;
                         }
                         break;
                     case "downleft":
-                        flake.x -= speed;
-                        flake.y += speed;
+                        flake.x -= speedRef.current;
+                        flake.y += speedRef.current;
                         if (flake.x < 0 || flake.y > height) {
                             flake.x = Math.random() * width;
                             flake.y = 0;
                         }
                         break;
                     case "downright":
-                        flake.x += speed;
-                        flake.y += speed;
+                        flake.x += speedRef.current;
+                        flake.y += speedRef.current;
                         if (flake.x > width || flake.y > height) {
                             flake.x = Math.random() * width;
                             flake.y = 0;
