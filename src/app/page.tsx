@@ -16,8 +16,6 @@ function page() {
     });
 
     useEffect(() => {
-        console.log(data);
-
         let handleResizing = () => {
             setSendProps((val) => {
                 return { ...val, height: innerHeight, width: innerWidth };
