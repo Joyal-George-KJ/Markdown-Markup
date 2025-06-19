@@ -227,94 +227,100 @@ export default function ControlBar({
             </div>
 
             <div className="form-group">
+                <label htmlFor="direction">Direction</label>
+                <div className="direction">
+                    {[
+                        "none",
+                        "random",
+                        "left",
+                        "right",
+                        "up",
+                        "down",
+                        "upleft",
+                        "upright",
+                        "downleft",
+                        "downright",
+                    ].map((dir) => (
+                        <button
+                            type="button"
+                            className="direction"
+                            id="direction"
+                            key={dir}
+                            onClick={(e) =>
+                                setTempData({
+                                    ...tempData,
+                                    direction: dir as Direction,
+                                })
+                            }
+                        >
+                            {directionSVG[dir]}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="form-group">
                 <label htmlFor="count">Count</label>
-                <input
-                    type="range"
-                    id="count"
-                    min={0}
-                    max={100}
-                    value={tempData.count}
-                    onChange={(e) =>
-                        setTempData({
-                            ...tempData,
-                            count: Number(e.target.value),
-                        })
-                    }
-                />
-                <input
-                    type="number"
-                    min={1}
-                    max={100}
-                    name="count"
-                    onChange={(e) =>
-                        setTempData({
-                            ...tempData,
-                            count: Number(e.target.value),
-                        })
-                    }
-                    value={tempData.count}
-                ></input>
+                <div>
+                    <input
+                        type="range"
+                        id="count"
+                        min={0}
+                        max={100}
+                        value={tempData.count}
+                        onChange={(e) =>
+                            setTempData({
+                                ...tempData,
+                                count: Number(e.target.value),
+                            })
+                        }
+                    />
+                    <input
+                        type="number"
+                        min={1}
+                        max={100}
+                        name="count"
+                        onChange={(e) =>
+                            setTempData({
+                                ...tempData,
+                                count: Number(e.target.value),
+                            })
+                        }
+                        value={tempData.count}
+                    ></input>
+                </div>
             </div>
 
             <div className="form-group">
                 <label htmlFor="speed">Speed</label>
-                <input
-                    type="range"
-                    id="speed"
-                    step="any"
-                    min="0"
-                    max="100"
-                    value={tempData.speed}
-                    onChange={(e) =>
-                        setTempData({
-                            ...tempData,
-                            speed: Number(e.target.value),
-                        })
-                    }
-                />
-                <input
-                    type="number"
-                    step="any"
-                    name="speed"
-                    onChange={(e) =>
-                        setTempData({
-                            ...tempData,
-                            speed: Number(e.target.value),
-                        })
-                    }
-                    value={tempData.speed.toFixed(2)}
-                ></input>
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="direction">Direction</label>
-                {[
-                    "none",
-                    "random",
-                    "left",
-                    "right",
-                    "up",
-                    "down",
-                    "upleft",
-                    "upright",
-                    "downleft",
-                    "downright",
-                ].map((dir) => (
-                    <button
-                        type="button"
-                        className="direction"
-                        id="direction"
-                        key={dir}
-                        onClick={(e) =>
+                <div>
+                    <input
+                        type="range"
+                        id="speed"
+                        step="any"
+                        min="0"
+                        max="100"
+                        value={tempData.speed}
+                        onChange={(e) =>
                             setTempData({
                                 ...tempData,
-                                direction: dir as Direction,
+                                speed: Number(e.target.value),
                             })
                         }
-                    >
-                        {directionSVG[dir]}
-                    </button>
-                ))}
+                    />
+                    <input
+                        type="number"
+                        step="any"
+                        name="speed"
+                        onChange={(e) =>
+                            setTempData({
+                                ...tempData,
+                                speed: Number(e.target.value),
+                            })
+                        }
+                        value={tempData.speed.toFixed(2)}
+                    ></input>
+                </div>
             </div>
 
             <button type="submit" className="submit-btn">
