@@ -46,7 +46,10 @@ export default function EffectProvider({
     return (
         <canvas
             ref={canvasRef}
-            style={{ display: "block", backgroundColor: bgColor }}
+            style={{
+                display: "block",
+                backgroundColor: bgColor,
+            }}
         />
     );
 }

@@ -32,10 +32,15 @@ body {
 }
 
 .form-group {
-    display: flex;
+    display: grid;
+    grid-template-columns: 25% 1fr;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
+}
+
+.form-group div {
+    display: flex;
 }
 
 output {
@@ -118,5 +123,18 @@ button[type="button"].direction {
 button[type="button"].direction:hover {
     background-color: black;
     cursor: pointer;
+}
 
+div.direction {
+    flex-wrap: wrap;
+}
+
+@media only screen and (max-width: 600px) {
+    .panel {
+        left: 20px;
+    }
+
+    button.panel {
+        left: auto;
+    }
 }
