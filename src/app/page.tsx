@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import EffectProvider, { DataType } from "./EffectProvider";
+import EffectProvider from "./EffectProvider";
 import ControlBar from "./ControlBar";
+import { DataType } from "./EffectTypes";
+import Spear from "./Flakes/Spear";
 
 function page() {
     const [sendProps, setSendProps] = useState({ height: 0, width: 0 });
@@ -58,6 +60,7 @@ function page() {
                 speed={data.speed}
                 bgColor={data.bgColor}
                 flakeColor={data.flakeColor}
+                flakeObject={Spear}
             ></EffectProvider>
         </div>
     );
