@@ -15,47 +15,11 @@ export default function EffectProvider({
 }: EffectProp) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const flakesRef = useRef<Flake[]>([]);
-
     const speedRef = useRef(speed);
-    const directionRef = useRef(direction);
 
     useEffect(() => {
         speedRef.current = speed;
-        directionRef.current = direction;
-    }, [speed, direction]);
-
-    const generateFlakes = () => {
-        flakesRef.current = Array.from({ length: count }, () => {
-            const x = Math.random() * width;
-            const y = Math.random() * height;
-            const r = Math.random() * 5 + 1;
-            return {
-                x,
-                y,
-                r,
-                direction:
-                    direction === "random" ? getRandomDirection() : direction,
-            };
-        });
-    };
-
-    const getRandomDirection = (): Direction => {
-        const directions: Direction[] = [
-            "left",
-            "right",
-            "up",
-            "down",
-            "upleft",
-            "upright",
-            "downleft",
-            "downright",
-        ];
-        return directions[Math.floor(Math.random() * directions.length)];
-    };
-
-    useEffect(() => {
-        generateFlakes();
-    }, [count, width, height, direction, speed, bgColor, flakeColor]);
+    }, [speed]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -66,78 +30,18 @@ export default function EffectProvider({
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        const draw = () => {
-            ctx.clearRect(0, 0, width, height);
-            for (const flake of flakesRef.current) {
-                ctx.beginPath();
-                ctx.arc(flake.x, flake.y, flake.r, 0, 2 * Math.PI);
-                ctx.fillStyle = flakeColor;
-                ctx.fill();
-                ctx.closePath();
-            }
-        };
+        const flake = new flakeObject(
+            ctx,
+            flakesRef,
+            speedRef,
+            width,
+            height,
+            flakeColor,
+        );
 
-        const move = () => {
-            for (const flake of flakesRef.current) {
-                switch (flake.direction) {
-                    case "left":
-                        flake.x -= speedRef.current;
-                        if (flake.x < 0) flake.x = width;
-                        break;
-                    case "right":
-                        flake.x += speedRef.current;
-                        if (flake.x > width) flake.x = 0;
-                        break;
-                    case "up":
-                        flake.y -= speedRef.current;
-                        if (flake.y < 0) flake.y = height;
-                        break;
-                    case "down":
-                        flake.y += speedRef.current;
-                        if (flake.y > height) flake.y = 0;
-                        break;
-                    case "upleft":
-                        flake.x -= speedRef.current;
-                        flake.y -= speedRef.current;
-                        if (flake.x < 0 || flake.y < 0) {
-                            flake.x = Math.random() * width;
-                            flake.y = height;
-                        }
-                        break;
-                    case "upright":
-                        flake.x += speedRef.current;
-                        flake.y -= speedRef.current;
-                        if (flake.x > width || flake.y < 0) {
-                            flake.x = Math.random() * width;
-                            flake.y = height;
-                        }
-                        break;
-                    case "downleft":
-                        flake.x -= speedRef.current;
-                        flake.y += speedRef.current;
-                        if (flake.x < 0 || flake.y > height) {
-                            flake.x = Math.random() * width;
-                            flake.y = 0;
-                        }
-                        break;
-                    case "downright":
-                        flake.x += speedRef.current;
-                        flake.y += speedRef.current;
-                        if (flake.x > width || flake.y > height) {
-                            flake.x = Math.random() * width;
-                            flake.y = 0;
-                        }
-                        break;
-                    case "none":
-                        break;
-                }
-            }
-            draw();
-            requestAnimationFrame(move);
-        };
-
-        move();
-    }, [width, height, speed, flakeColor]);
+        flake.generateFlakes(count, direction, width, height);
+        flake.move();
+    }, [width, height, count, direction, flakeColor]);
 
     return (
         <canvas
