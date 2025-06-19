@@ -1,43 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-
-export type Direction =
-    | "none"
-    | "left"
-    | "right"
-    | "up"
-    | "down"
-    | "upleft"
-    | "upright"
-    | "downright"
-    | "downleft"
-    | "random";
-
-export interface DataType {
-    count: number;
-    direction: Direction;
-    speed: number;
-    flakeColor: string;
-    bgColor: string;
-}
-
-export interface EffectProp {
-    height: number;
-    width: number;
-    count: number;
-    direction?: Direction;
-    speed?: number;
-    bgColor?: string;
-    flakeColor?: string;
-}
-
-export interface Flake {
-    x: number;
-    y: number;
-    r: number;
-    direction: Direction;
-}
+import { EffectProp, Flake } from "./EffectTypes"; // or wherever you export types
 
 export default function EffectProvider({
     height,
@@ -47,6 +11,7 @@ export default function EffectProvider({
     speed = 0.1,
     bgColor = "white",
     flakeColor = "black",
+    flakeObject,
 }: EffectProp) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const flakesRef = useRef<Flake[]>([]);

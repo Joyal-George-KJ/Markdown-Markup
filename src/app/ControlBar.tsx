@@ -1,5 +1,5 @@
 import { JSX, useEffect, useState } from "react";
-import { DataType, Direction } from "./EffectProvider";
+import { DataType, Direction } from "./EffectTypes";
 
 type ControlBarProps = {
     data: DataType;
