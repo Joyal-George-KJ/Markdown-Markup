@@ -42,17 +42,20 @@ export default function EffectProvider({
 
         canvas.width = width;
         canvas.height = height;
+
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
+        // Instantiate flake logic object
         const flake = new flakeObject(
             ctx,
             flakesRef,
             speedRef,
             width,
             height,
-            flakeColor,
+            flakeColor
         );
+        
 
         flake.generateFlakes(count, direction, width, height);
         flake.move();
