@@ -416,7 +416,8 @@ export default function ControlBar({
                 >
                     <option value="circle">Circle</option>
                     <option value="square">Square</option>
-                    <option value="star">Triangle</option>
+                    <option value="star">Star</option>
+                    <option value="image">Image</option>
                 </select>
             </div>
 
