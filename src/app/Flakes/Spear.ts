@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { Direction, EdgeBehavior } from "../EffectTypes";
+import { Direction, EdgeBehavior, Flake, FlakeShape } from "../EffectTypes";
 
 interface MoveConfig {
     mouseRepel?: boolean;
