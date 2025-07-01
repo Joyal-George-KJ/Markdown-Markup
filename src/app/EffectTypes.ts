@@ -2,6 +2,8 @@ export type FlakeShape = "circle" | "square" | "star" | "image";
 
 export type EdgeBehavior = "wrap" | "bounce" | "reposition";
 
+export type LayerPosition = "under" | "over";
+
 export type Direction =
     | "none"
     | "left"
