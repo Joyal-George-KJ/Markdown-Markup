@@ -50,5 +50,7 @@ export interface Flake {
     x: number;
     y: number;
     r: number;
+    dx?: number;
+    dy?: number;
     direction: Direction;
 }
