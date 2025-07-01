@@ -58,16 +58,76 @@ export default function EffectProvider({
         
 
         flake.generateFlakes(count, direction, width, height);
-        flake.move();
-    }, [width, height, count, direction, flakeColor]);
+        flake.move({
+            mouseRepel,
+            gravity,
+            edgeBehavior,
+            customShape,
+            customImageSrc,
+            opacity,
+            maxSize,
+            minSize,
+            fps,
+            hoverColor,
+            interactive,
+            bgOpacity,
+        });
+    }, [
+        width,
+        height,
+        count,
+        direction,
+        speed,
+        flakeColor,
+        bgColor,
+        mouseRepel,
+        gravity,
+        edgeBehavior,
+        customShape,
+        customImageSrc,
+        opacity,
+        maxSize,
+        minSize,
+        fps,
+        hoverColor,
+        interactive,
+        bgOpacity,
+        flakeObject,
+    ]);
 
     return (
-        <canvas
-            ref={canvasRef}
-            style={{
-                display: "block",
-                backgroundColor: bgColor,
-            }}
-        />
+        <div style={{ position: "relative", width, height }}>
+            {zIndex === "under" && (
+                <canvas
+                    ref={canvasRef}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        zIndex: layer ?? 0,
+                        backgroundColor: bgColor,
+                        opacity: bgOpacity,
+                        pointerEvents: "none",
+                    }}
+                />
+            )}
+
+            {children}
+
+            {zIndex === "over" && (
+                <canvas
+                    ref={canvasRef}
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        zIndex: layer ?? 9999,
+                        backgroundColor: bgColor,
+                        opacity: bgOpacity,
+                        pointerEvents: "none",
+                    }}
+                />
+            )}
+        </div>
     );
 }
