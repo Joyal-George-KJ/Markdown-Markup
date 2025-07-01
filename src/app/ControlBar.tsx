@@ -381,11 +381,19 @@ export default function ControlBar({
                 <label htmlFor="edgeBehavior">Edge Behavior</label>
                 <select
                     id="edgeBehavior"
-                    value={tempData.edgeBehavior || "wrap"}
+                    disabled={tempData.direction === "random"}
+                    value={
+                        tempData.direction !== "random"
+                            ? tempData.edgeBehavior || "wrap"
+                            : "wrap"
+                    }
                     onChange={(e) =>
                         setTempData({
                             ...tempData,
-                            edgeBehavior: e.target.value as "wrap" | "bounce",
+                            edgeBehavior:
+                                tempData.direction === "random"
+                                    ? "wrap"
+                                    : (e.target.value as "wrap" | "bounce"),
                         })
                     }
                 >
