@@ -59,12 +59,10 @@ function page() {
             <EffectProvider
                 height={sendProps.height}
                 width={sendProps.width}
-                count={data.count}
                 direction={data.direction}
-                speed={data.speed}
                 bgColor={data.bgColor}
                 flakeColor={data.flakeColor}
-                flakeObject={data.flakeObject}
+                {...data}
             ></EffectProvider>
         </div>
     );
