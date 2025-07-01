@@ -1,3 +1,4 @@
+export type FlakeShape = "circle" | "square" | "star" | "image";
 export type Direction =
     | "none"
     | "left"
