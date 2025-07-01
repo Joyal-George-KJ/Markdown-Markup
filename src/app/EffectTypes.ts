@@ -12,21 +12,28 @@ export type Direction =
 
 export interface DataType {
     count: number;
-    direction: Direction;
     speed: number;
-    flakeColor: string;
-    bgColor: string;
-}
-
-export interface EffectProp {
-    height: number;
-    width: number;
-    count: number;
     flakeObject: any;
     direction?: Direction;
-    speed?: number;
     bgColor?: string;
     flakeColor?: string;
+
+    // ✅ New Options
+    mouseRepel?: boolean;
+    customShape?: FlakeShape;
+    customImageSrc?: string; // Required if shape === "image"
+    edgeBehavior?: EdgeBehavior;
+    zIndex?: LayerPosition;
+    interactive?: boolean;
+    bgOpacity?: number; // For trails or blending effects
+    layer?: number; // For controlling stacking in DOM
+    gravity?: boolean;
+    opacity?: number; // Particle base opacity (0–1)
+    maxSize?: number;
+    minSize?: number;
+    fps?: number;
+    hoverColor?: string;
+}
 }
 
 export interface Flake {
