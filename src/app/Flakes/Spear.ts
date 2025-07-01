@@ -1,133 +1,107 @@
 import { RefObject } from "react";
-import { Direction, Flake } from "../EffectTypes";
+import { Direction, EdgeBehavior } from "../EffectTypes";
 
-export default class Spear {
-    ctrl: CanvasRenderingContext2D;
-    flakesRef: RefObject<Flake[]>;
-    speedRef: RefObject<number>;
-    width: number;
-    height: number;
-    flakeColor: string;
+interface MoveConfig {
+    mouseRepel?: boolean;
+    gravity?: boolean;
+    edgeBehavior?: EdgeBehavior;
+    customShape?: "circle" | "square" | "triangle";
+    customImageSrc?: string;
+    opacity?: number;
+    maxSize?: number;
+    minSize?: number;
+    fps?: number;
+    hoverColor?: string;
+    interactive?: boolean;
+    bgOpacity?: number;
+}
 
+export class Spear {
     constructor(
-        ctrl: CanvasRenderingContext2D,
-        flakesRef: RefObject<Flake[]>,
-        speedRef: RefObject<number>,
-        width: number,
-        height: number,
-        flakeColor: string
-    ) {
-        this.ctrl = ctrl;
-        this.flakesRef = flakesRef;
-        this.speedRef = speedRef;
-        this.width = width;
-        this.height = height;
-        this.flakeColor = flakeColor;
+        private ctx: CanvasRenderingContext2D,
+        private flakesRef: RefObject<any[]>,
+        private speedRef: RefObject<number>,
+        private width: number,
+        private height: number,
+        private flakeColor: string
+    ) {}
+
+    generateFlakes(count: number, direction: Direction, width: number, height: number) {
+        this.flakesRef.current = Array.from({ length: count }, () => ({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 3 + 1,
+            dx: (Math.random() - 0.5) * 2,
+            dy: (Math.random() - 0.5) * 2,
+            direction,
+        }));
     }
 
-    draw = () => {
-        this.ctrl.clearRect(0, 0, this.width, this.height);
-        for (const flake of this.flakesRef.current) {
-            this.ctrl.beginPath();
-            this.ctrl.arc(flake.x, flake.y, flake.r, 0, 2 * Math.PI);
-            this.ctrl.fillStyle = this.flakeColor;
-            this.ctrl.fill();
-            this.ctrl.closePath();
-        }
-    };
+    move(config: MoveConfig = {}) {
+        const {
+            mouseRepel = false,
+            gravity = false,
+            edgeBehavior = "wrap",
+            customShape = "circle",
+            opacity = 1,
+        } = config;
 
-    getRandomDirection = (): Direction => {
-        const directions: Direction[] = [
-            "left",
-            "right",
-            "up",
-            "down",
-            "upleft",
-            "upright",
-            "downleft",
-            "downright",
-        ];
-        return directions[Math.floor(Math.random() * directions.length)];
-    };
+        const animate = () => {
+            const { ctx, flakesRef, width, height, speedRef } = this;
 
-    generateFlakes = (
-        count: number,
-        direction: Direction,
-        width: number,
-        height: number
-    ) => {
-        this.flakesRef.current = Array.from({ length: count }, () => {
-            const x = Math.random() * width;
-            const y = Math.random() * height;
-            const r = Math.random() * 5 + 1;
-            return {
-                x,
-                y,
-                r,
-                direction:
-                    direction === "random"
-                        ? this.getRandomDirection()
-                        : direction,
-            };
-        });
-    };
+            if (!ctx) return;
 
-    move = () => {
-        for (const flake of this.flakesRef.current) {
-            switch (flake.direction) {
-                case "left":
-                    flake.x -= this.speedRef.current;
-                    if (flake.x < 0) flake.x = this.width;
-                    break;
-                case "right":
-                    flake.x += this.speedRef.current;
-                    if (flake.x > this.width) flake.x = 0;
-                    break;
-                case "up":
-                    flake.y -= this.speedRef.current;
-                    if (flake.y < 0) flake.y = this.height;
-                    break;
-                case "down":
-                    flake.y += this.speedRef.current;
-                    if (flake.y > this.height) flake.y = 0;
-                    break;
-                case "upleft":
-                    flake.x -= this.speedRef.current;
-                    flake.y -= this.speedRef.current;
-                    if (flake.x < 0 || flake.y < 0) {
-                        flake.x = Math.random() * this.width;
-                        flake.y = this.height;
-                    }
-                    break;
-                case "upright":
-                    flake.x += this.speedRef.current;
-                    flake.y -= this.speedRef.current;
-                    if (flake.x > this.width || flake.y < 0) {
-                        flake.x = Math.random() * this.width;
-                        flake.y = this.height;
-                    }
-                    break;
-                case "downleft":
-                    flake.x -= this.speedRef.current;
-                    flake.y += this.speedRef.current;
-                    if (flake.x < 0 || flake.y > this.height) {
-                        flake.x = Math.random() * this.width;
-                        flake.y = 0;
-                    }
-                    break;
-                case "downright":
-                    flake.x += this.speedRef.current;
-                    flake.y += this.speedRef.current;
-                    if (flake.x > this.width || flake.y > this.height) {
-                        flake.x = Math.random() * this.width;
-                        flake.y = 0;
-                    }
-                    break;
-                case "none":
-                    break;
-            }
-        }
-        this.draw();
-        requestAnimationFrame(this.move);
-    };
+            ctx.clearRect(0, 0, width, height);
+
+            flakesRef.current.forEach((flake) => {
+                let { x, y, dx, dy, size } = flake;
+
+                // Update movement
+                if (gravity) dy += 0.05;
+                flake.x += dx * speedRef.current;
+                flake.y += dy * speedRef.current;
+
+                // Edge handling
+                if (edgeBehavior === "wrap") {
+                    if (flake.x > width) flake.x = 0;
+                    if (flake.x < 0) flake.x = width;
+                    if (flake.y > height) flake.y = 0;
+                    if (flake.y < 0) flake.y = height;
+                } else if (edgeBehavior === "bounce") {
+                    if (flake.x <= 0 || flake.x >= width) flake.dx *= -1;
+                    if (flake.y <= 0 || flake.y >= height) flake.dy *= -1;
+                }
+
+                // Draw flake
+                ctx.beginPath();
+                ctx.globalAlpha = opacity;
+
+                switch (customShape) {
+                    case "square":
+                        ctx.fillStyle = this.flakeColor;
+                        ctx.fillRect(flake.x, flake.y, size, size);
+                        break;
+                    case "triangle":
+                        ctx.fillStyle = this.flakeColor;
+                        ctx.moveTo(flake.x, flake.y);
+                        ctx.lineTo(flake.x - size, flake.y + size);
+                        ctx.lineTo(flake.x + size, flake.y + size);
+                        ctx.closePath();
+                        ctx.fill();
+                        break;
+                    default:
+                        ctx.fillStyle = this.flakeColor;
+                        ctx.arc(flake.x, flake.y, size, 0, Math.PI * 2);
+                        ctx.fill();
+                        break;
+                }
+
+                ctx.globalAlpha = 1;
+            });
+
+            requestAnimationFrame(animate);
+        };
+
+        animate();
+    }
 }
