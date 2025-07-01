@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import EffectProvider from "./EffectProvider";
 import ControlBar from "./ControlBar";
 import { DataType } from "./EffectTypes";
-import Spear from "./Flakes/Spear";
+import { Spear } from "./Flakes/Spear";
 
 function page() {
     const [sendProps, setSendProps] = useState({ height: 0, width: 0 });
@@ -15,6 +15,7 @@ function page() {
         speed: 0.1,
         flakeColor: "#000000",
         bgColor: "#ffffff",
+        flakeObject: Spear,
     });
 
     useEffect(() => {
@@ -25,6 +26,9 @@ function page() {
         };
 
         handleResizing();
+
+        console.log(data);
+        
 
         window.addEventListener("resize", handleResizing);
 
@@ -60,7 +64,7 @@ function page() {
                 speed={data.speed}
                 bgColor={data.bgColor}
                 flakeColor={data.flakeColor}
-                flakeObject={Spear}
+                flakeObject={data.flakeObject}
             ></EffectProvider>
         </div>
     );
