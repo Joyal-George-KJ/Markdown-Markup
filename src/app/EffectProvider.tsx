@@ -7,12 +7,27 @@ export default function EffectProvider({
     height,
     width,
     count,
+    flakeObject,
     direction = "left",
     speed = 0.1,
     bgColor = "white",
     flakeColor = "black",
-    flakeObject,
-}: EffectProp) {
+    zIndex = "under",
+    mouseRepel = false,
+    interactive = false,
+    bgOpacity = 1,
+    gravity = false,
+    opacity = 1,
+    maxSize = 6,
+    minSize = 1,
+    edgeBehavior = "wrap",
+    customShape = "circle",
+    customImageSrc,
+    fps,
+    hoverColor,
+    layer,
+    children,
+}: EffectProp & { children?: React.ReactNode }) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const flakesRef = useRef<Flake[]>([]);
     const speedRef = useRef(speed);
