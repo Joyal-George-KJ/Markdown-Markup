@@ -5,7 +5,7 @@ interface MoveConfig {
     mouseRepel?: boolean;
     gravity?: boolean;
     edgeBehavior?: EdgeBehavior;
-    customShape?: "circle" | "square" | "triangle";
+    customShape?: FlakeShape;
     customImageSrc?: string;
     opacity?: number;
     maxSize?: number;
