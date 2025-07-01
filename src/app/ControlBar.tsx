@@ -323,6 +323,68 @@ export default function ControlBar({
                 </div>
             </div>
 
+            <div className="form-group">
+                <label htmlFor="gravity">Gravity</label>
+                <input
+                    type="checkbox"
+                    id="gravity"
+                    checked={tempData.gravity || false}
+                    onChange={(e) =>
+                        setTempData({ ...tempData, gravity: e.target.checked })
+                    }
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="mouseRepel">Mouse Repulsion</label>
+                <input
+                    type="checkbox"
+                    id="mouseRepel"
+                    checked={tempData.mouseRepel || false}
+                    onChange={(e) =>
+                        setTempData({
+                            ...tempData,
+                            mouseRepel: e.target.checked,
+                        })
+                    }
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="edgeBehavior">Edge Behavior</label>
+                <select
+                    id="edgeBehavior"
+                    value={tempData.edgeBehavior || "wrap"}
+                    onChange={(e) =>
+                        setTempData({
+                            ...tempData,
+                            edgeBehavior: e.target.value as "wrap" | "bounce",
+                        })
+                    }
+                >
+                    <option value="wrap">Wrap</option>
+                    <option value="bounce">Bounce</option>
+                </select>
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="customShape">Flake Shape</label>
+                <select
+                    id="customShape"
+                    value={tempData.customShape || "circle"}
+                    onChange={(e) =>
+                        setTempData({
+                            ...tempData,
+                            customShape: e.target.value as FlakeShape,
+                        })
+                    }
+                >
+                    <option value="circle">Circle</option>
+                    <option value="square">Square</option>
+                    <option value="star">Triangle</option>
+                </select>
+            </div>
+
             <button type="submit" className="submit-btn">
                 Apply
             </button>
