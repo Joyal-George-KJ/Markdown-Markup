@@ -202,6 +202,33 @@ export default function ControlBar({
                     </svg>
                 </button>
             </div>
+
+            {/* <div className="form-group">
+                <label htmlFor="flakeObject">Flake Object</label>
+                <select
+                    className="flakeObject"
+                    id="flakeObject"
+                    defaultValue={"0"}
+                    onChange={(e) =>
+                        setTempData({
+                            ...tempData,
+                            flakeObject: flakeObjects[Number(e.target.value)],
+                        })
+                    }
+                >
+                    {["Spear"].map((dir, ind) => (
+                        <option
+                            className="flakeObject"
+                            id={ind.toString()}
+                            value={ind}
+                            key={ind}
+                        >
+                            {dir}
+                        </option>
+                    ))}
+                </select>
+            </div> */}
+
             <div className="form-group">
                 <label htmlFor="bgColor">Background</label>
                 <input
