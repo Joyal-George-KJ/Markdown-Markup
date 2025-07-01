@@ -63,7 +63,7 @@ export default function EffectProvider({
             gravity,
             edgeBehavior,
             customShape,
-            customImageSrc,
+            customImageSrc: "/image/cherry-blossom-petal.png",
             opacity,
             maxSize,
             minSize,
