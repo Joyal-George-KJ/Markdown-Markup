@@ -40,6 +40,10 @@ export interface DataType {
     fps?: number;
     hoverColor?: string;
 }
+
+export interface EffectProp extends DataType {
+    height: number;
+    width: number;
 }
 
 export interface Flake {
