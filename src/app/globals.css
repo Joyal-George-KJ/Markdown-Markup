@@ -98,7 +98,7 @@ select option {
     transition: 0.2s;
 }
 
-.submit-btn:hover {
+input[type="submit"].submit-btn:hover {
     background: #00dddd;
 }
 
