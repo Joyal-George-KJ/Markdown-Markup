@@ -20,6 +20,7 @@ export interface DataType {
     count: number;
     speed: number;
     flakeObject: any;
+    radious: number;
     direction?: Direction;
     bgColor?: string;
     flakeColor?: string;
