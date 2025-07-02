@@ -175,6 +175,7 @@ export default function ControlBar({
     toggler,
 }: ControlBarProps) {
     const [tempData, setTempData] = useState<DataType>(data);
+    const [stage, setStage] = useState(0);
 
     useEffect(() => {
         setTempData(data);
