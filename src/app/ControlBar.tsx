@@ -180,31 +180,32 @@ export default function ControlBar({
     useEffect(() => {
         setTempData(data);
     }, []);
-
+    
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setData(tempData);
     };
 
-    return (
-        <form className="panel" onSubmit={handleSubmit}>
-            <div className="form-group heading">
-                <h2>Particle Controls</h2>
-                <button type="button" onClick={toggler}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        className="bi bi-x-lg"
-                        viewBox="0 0 16 16"
-                    >
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
-                    </svg>
-                </button>
-            </div>
+    if (stage === 0)
+        return (
+            <form className="panel" onSubmit={handleSubmit}>
+                <div className="form-group heading">
+                    <h2>Particle Controls</h2>
+                    <button type="button" onClick={toggler}>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            className="bi bi-x-lg"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                        </svg>
+                    </button>
+                </div>
 
-            {/* <div className="form-group">
+                {/* <div className="form-group">
                 <label htmlFor="flakeObject">Flake Object</label>
                 <select
                     className="flakeObject"
@@ -230,201 +231,305 @@ export default function ControlBar({
                 </select>
             </div> */}
 
-            <div className="form-group">
-                <label htmlFor="bgColor">Background</label>
-                <input
-                    type="color"
-                    id="bgColor"
-                    value={tempData.bgColor}
-                    onChange={(e) =>
-                        setTempData({ ...tempData, bgColor: e.target.value })
-                    }
-                />
-            </div>
+                <div className="form-group">
+                    <label htmlFor="bgColor">Background</label>
+                    <input
+                        type="color"
+                        id="bgColor"
+                        value={tempData.bgColor}
+                        onChange={(e) =>
+                            setTempData({
+                                ...tempData,
+                                bgColor: e.target.value,
+                            })
+                        }
+                    />
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="flakeColor">Flake</label>
-                <input
-                    type="color"
-                    id="flakeColor"
-                    value={tempData.flakeColor}
-                    onChange={(e) =>
-                        setTempData({ ...tempData, flakeColor: e.target.value })
-                    }
-                />
-            </div>
+                <div className="form-group">
+                    <label htmlFor="flakeColor">Flake</label>
+                    <input
+                        type="color"
+                        id="flakeColor"
+                        value={tempData.flakeColor}
+                        onChange={(e) =>
+                            setTempData({
+                                ...tempData,
+                                flakeColor: e.target.value,
+                            })
+                        }
+                    />
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="direction">Direction</label>
-                <div className="direction">
-                    {[
-                        "none",
-                        "random",
-                        "left",
-                        "right",
-                        "up",
-                        "down",
-                        "upleft",
-                        "upright",
-                        "downleft",
-                        "downright",
-                    ].map((dir) => (
-                        <button
-                            type="button"
-                            className="direction"
-                            id="direction"
-                            key={dir}
-                            onClick={(e) =>
+                <div className="form-group">
+                    <label htmlFor="direction">Direction</label>
+                    <div className="direction">
+                        {[
+                            "none",
+                            "random",
+                            "left",
+                            "right",
+                            "up",
+                            "down",
+                            "upleft",
+                            "upright",
+                            "downleft",
+                            "downright",
+                        ].map((dir) => (
+                            <button
+                                type="button"
+                                className="direction"
+                                id="direction"
+                                key={dir}
+                                onClick={(e) =>
+                                    setTempData({
+                                        ...tempData,
+                                        direction: dir as Direction,
+                                    })
+                                }
+                            >
+                                {directionSVG[dir]}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="count">Count</label>
+                    <div>
+                        <input
+                            type="range"
+                            id="count"
+                            min={0}
+                            max={100}
+                            value={tempData.count}
+                            onChange={(e) =>
                                 setTempData({
                                     ...tempData,
-                                    direction: dir as Direction,
+                                    count: Number(e.target.value),
                                 })
                             }
-                        >
-                            {directionSVG[dir]}
-                        </button>
-                    ))}
+                        />
+                        <input
+                            type="number"
+                            min={1}
+                            max={100}
+                            name="count"
+                            onChange={(e) =>
+                                setTempData({
+                                    ...tempData,
+                                    count: Number(e.target.value),
+                                })
+                            }
+                            value={tempData.count}
+                        ></input>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group">
-                <label htmlFor="count">Count</label>
-                <div>
+                <div className="form-group">
+                    <label htmlFor="radious">radious</label>
+                    <div>
+                        <input
+                            type="range"
+                            id="radious"
+                            step="any"
+                            min={0}
+                            max={100}
+                            value={tempData.radious}
+                            onChange={(e) =>
+                                setTempData({
+                                    ...tempData,
+                                    radious: Number(e.target.value),
+                                })
+                            }
+                        />
+                        <input
+                            type="number"
+                            step="any"
+                            min={1}
+                            max={100}
+                            name="radious"
+                            onChange={(e) =>
+                                setTempData({
+                                    ...tempData,
+                                    radious: Number(e.target.value),
+                                })
+                            }
+                            value={tempData.radious}
+                        ></input>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="speed">Speed</label>
+                    <div>
+                        <input
+                            type="range"
+                            id="speed"
+                            step="any"
+                            min="0"
+                            max="100"
+                            value={tempData.speed}
+                            onChange={(e) =>
+                                setTempData({
+                                    ...tempData,
+                                    speed: Number(e.target.value),
+                                })
+                            }
+                        />
+                        <input
+                            type="number"
+                            step="any"
+                            name="speed"
+                            onChange={(e) =>
+                                setTempData({
+                                    ...tempData,
+                                    speed: Number(e.target.value),
+                                })
+                            }
+                            value={tempData.speed.toFixed(2)}
+                        ></input>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="gravity">Gravity</label>
                     <input
-                        type="range"
-                        id="count"
-                        min={0}
-                        max={100}
-                        value={tempData.count}
+                        type="checkbox"
+                        id="gravity"
+                        checked={tempData.gravity || false}
                         onChange={(e) =>
                             setTempData({
                                 ...tempData,
-                                count: Number(e.target.value),
+                                gravity: e.target.checked,
                             })
                         }
                     />
-                    <input
-                        type="number"
-                        min={1}
-                        max={100}
-                        name="count"
-                        onChange={(e) =>
-                            setTempData({
-                                ...tempData,
-                                count: Number(e.target.value),
-                            })
-                        }
-                        value={tempData.count}
-                    ></input>
                 </div>
-            </div>
 
-            <div className="form-group">
-                <label htmlFor="speed">Speed</label>
-                <div>
+                <div className="form-group">
+                    <label htmlFor="mouseRepel">Mouse Repulsion</label>
                     <input
-                        type="range"
-                        id="speed"
-                        step="any"
-                        min="0"
-                        max="100"
-                        value={tempData.speed}
+                        type="checkbox"
+                        id="mouseRepel"
+                        checked={tempData.mouseRepel || false}
                         onChange={(e) =>
                             setTempData({
                                 ...tempData,
-                                speed: Number(e.target.value),
+                                mouseRepel: e.target.checked,
                             })
                         }
                     />
-                    <input
-                        type="number"
-                        step="any"
-                        name="speed"
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="edgeBehavior">Edge Behavior</label>
+                    <select
+                        id="edgeBehavior"
+                        disabled={tempData.direction === "random"}
+                        value={
+                            tempData.direction !== "random"
+                                ? tempData.edgeBehavior || "wrap"
+                                : "wrap"
+                        }
                         onChange={(e) =>
                             setTempData({
                                 ...tempData,
-                                speed: Number(e.target.value),
+                                edgeBehavior:
+                                    tempData.direction === "random"
+                                        ? "wrap"
+                                        : (e.target.value as "wrap" | "bounce"),
                             })
                         }
-                        value={tempData.speed.toFixed(2)}
-                    ></input>
+                    >
+                        <option value="wrap">Wrap</option>
+                        <option value="bounce">Bounce</option>
+                    </select>
                 </div>
-            </div>
 
-            <div className="form-group">
-                <label htmlFor="gravity">Gravity</label>
-                <input
-                    type="checkbox"
-                    id="gravity"
-                    checked={tempData.gravity || false}
-                    onChange={(e) =>
-                        setTempData({ ...tempData, gravity: e.target.checked })
-                    }
-                />
-            </div>
+                <div className="form-group">
+                    <label htmlFor="customShape">Flake Shape</label>
+                    <select
+                        id="customShape"
+                        value={tempData.customShape || "circle"}
+                        onChange={(e) =>
+                            setTempData({
+                                ...tempData,
+                                customShape: e.target.value as FlakeShape,
+                            })
+                        }
+                    >
+                        <option value="circle">Circle</option>
+                        <option value="square">Square</option>
+                        <option value="star">Star</option>
+                        <option value="image">Image</option>
+                    </select>
+                </div>
 
-            <div className="form-group">
-                <label htmlFor="mouseRepel">Mouse Repulsion</label>
-                <input
-                    type="checkbox"
-                    id="mouseRepel"
-                    checked={tempData.mouseRepel || false}
-                    onChange={(e) =>
-                        setTempData({
-                            ...tempData,
-                            mouseRepel: e.target.checked,
-                        })
-                    }
-                />
-            </div>
+                <button type="submit" className="submit-btn">
+                    Apply
+                </button>
 
-            <div className="form-group">
-                <label htmlFor="edgeBehavior">Edge Behavior</label>
-                <select
-                    id="edgeBehavior"
-                    disabled={tempData.direction === "random"}
-                    value={
-                        tempData.direction !== "random"
-                            ? tempData.edgeBehavior || "wrap"
-                            : "wrap"
-                    }
-                    onChange={(e) =>
-                        setTempData({
-                            ...tempData,
-                            edgeBehavior:
-                                tempData.direction === "random"
-                                    ? "wrap"
-                                    : (e.target.value as "wrap" | "bounce"),
-                        })
-                    }
+                <button
+                    type="button"
+                    className="submit-btn"
+                    style={{
+                        marginTop: "1rem",
+                        padding: 10,
+                        border: "1px solid grey",
+                    }}
+                    onClick={() => {
+                        setStage((_prev) => _prev + 1);
+                    }}
                 >
-                    <option value="wrap">Wrap</option>
-                    <option value="bounce">Bounce</option>
-                </select>
-            </div>
+                    Next
+                </button>
+            </form>
+        );
 
-            <div className="form-group">
-                <label htmlFor="customShape">Flake Shape</label>
-                <select
-                    id="customShape"
-                    value={tempData.customShape || "circle"}
-                    onChange={(e) =>
-                        setTempData({
-                            ...tempData,
-                            customShape: e.target.value as FlakeShape,
-                        })
-                    }
+    if (stage === 1)
+        return (
+            <div className="panel">
+                <div className="code-group">
+                    <code>{`Imports:`}</code>
+                    <br />
+                    <code>{`import EffectProvider from "./EffectProvider";`}</code>
+                    <br />
+                    <code>{`import { ${tempData.flakeObject ? tempData.flakeObject.name : "Spear"} } from "./Flakes";`}</code>
+                </div>
+
+                <div className="code-group">
+                    <code>{`Component:`}</code>
+                    <br />
+                    <code>{`<EffectProvider
+                                    height={${window.innerHeight}}
+                                    width={${window.innerWidth}}
+                                    direction={"${data.direction}"}
+                                    bgColor={"${data.bgColor}"}
+                                    flakeColor={"${data.flakeColor}"}
+                                    ${tempData.speed ? `speed={"${tempData.speed}"}` : ""}
+                                    ${tempData.flakeObject ? `flakeObject={"${tempData.flakeObject.name}"}` : ""}
+                                    ${tempData.gravity ? `gravity={"${tempData.gravity}"}` : ""}
+                                    ${tempData.mouseRepel ? `mouseRepel={"${tempData.mouseRepel}"}` : ""}
+                                    ${tempData.customShape ? `customShape={"${tempData.customShape}"}` : ""}
+                                    ${tempData.edgeBehavior ? `edgeBehavior={"${tempData.edgeBehavior}"}` : ""}
+                    >{children}</EffectProvider>`}</code>
+                </div>
+
+                <button
+                    type="button"
+                    className="submit-btn"
+                    style={{
+                        marginTop: "1rem",
+                        padding: 10,
+                        border: "1px solid grey",
+                    }}
+                    onClick={() => {
+                        setStage((_prev) => _prev - 1);
+                    }}
                 >
-                    <option value="circle">Circle</option>
-                    <option value="square">Square</option>
-                    <option value="star">Star</option>
-                    <option value="image">Image</option>
-                </select>
+                    Prev
+                </button>
             </div>
-
-            <button type="submit" className="submit-btn">
-                Apply
-            </button>
-        </form>
-    );
+        );
 }
