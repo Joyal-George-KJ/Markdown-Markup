@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { Direction, EdgeBehavior, Flake, FlakeShape } from "../EffectTypes";
+import { Direction, EdgeBehavior, Flake, FlakeShape } from "./EffectTypes";
 
 interface MoveConfig {
     mouseRepel?: boolean;
@@ -49,12 +49,13 @@ export class Spear {
         count: number,
         direction: Direction,
         width: number,
+        radious: number,
         height: number
     ) {
         this.flakesRef.current = Array.from({ length: count }, () => ({
             x: Math.random() * width,
             y: Math.random() * height,
-            r: Math.random() * 3 + 1,
+            r: radious ? radious : Math.random() * 3 + 1,
             dx: (Math.random() - 0.5) * 2,
             dy: (Math.random() - 0.5) * 2,
             direction,
@@ -82,12 +83,12 @@ export class Spear {
 
             for (const flake of flakesRef.current) {
                 const speed = speedRef.current;
-                let { x, y, dx, dy, r: size } = flake;
+                let { x, y, dx, dy, r: size, direction } = flake;
 
                 // Repulsion from mouse
                 if (mouseRepel) {
                     const dist = Math.hypot(this.mouse.x - x, this.mouse.y - y);
-                    const repulsionRadius = 100;
+                    const repulsionRadius = 10;
 
                     if (dist < repulsionRadius && dx && dy) {
                         const angle = Math.atan2(
@@ -124,6 +125,60 @@ export class Spear {
                 flake.y = y;
                 flake.dx = dx;
                 flake.dy = dy;
+
+                // Direction Change
+                switch (direction) {
+                    case "left":
+                        flake.x -= this.speedRef.current;
+                        if (flake.x < 0) flake.x = this.width;
+                        break;
+                    case "right":
+                        flake.x += this.speedRef.current;
+                        if (flake.x > this.width) flake.x = 0;
+                        break;
+                    case "up":
+                        flake.y -= this.speedRef.current;
+                        if (flake.y < 0) flake.y = this.height;
+                        break;
+                    case "down":
+                        flake.y += this.speedRef.current;
+                        if (flake.y > this.height) flake.y = 0;
+                        break;
+                    case "upleft":
+                        flake.x -= this.speedRef.current;
+                        flake.y -= this.speedRef.current;
+                        if (flake.x < 0 || flake.y < 0) {
+                            flake.x = Math.random() * this.width;
+                            flake.y = this.height;
+                        }
+                        break;
+                    case "upright":
+                        flake.x += this.speedRef.current;
+                        flake.y -= this.speedRef.current;
+                        if (flake.x > this.width || flake.y < 0) {
+                            flake.x = Math.random() * this.width;
+                            flake.y = this.height;
+                        }
+                        break;
+                    case "downleft":
+                        flake.x -= this.speedRef.current;
+                        flake.y += this.speedRef.current;
+                        if (flake.x < 0 || flake.y > this.height) {
+                            flake.x = Math.random() * this.width;
+                            flake.y = 0;
+                        }
+                        break;
+                    case "downright":
+                        flake.x += this.speedRef.current;
+                        flake.y += this.speedRef.current;
+                        if (flake.x > this.width || flake.y > this.height) {
+                            flake.x = Math.random() * this.width;
+                            flake.y = 0;
+                        }
+                        break;
+                    case "none":
+                        break;
+                }
 
                 // Draw flake
                 ctx.beginPath();
