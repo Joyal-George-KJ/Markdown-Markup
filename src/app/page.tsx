@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import EffectProvider from "./EffectProvider";
+import { Spear } from "./Flakes";
 import ControlBar from "./ControlBar";
 import { DataType } from "./EffectTypes";
-import { Spear } from "./Flakes/Spear";
 
 function page() {
     const [sendProps, setSendProps] = useState({ height: 0, width: 0 });
@@ -13,9 +13,10 @@ function page() {
         count: 50,
         direction: "left",
         speed: 0.1,
-        flakeColor: "#000000",
-        bgColor: "#ffffff",
+        flakeColor: "#ffffff",
+        bgColor: "#000000",
         flakeObject: Spear,
+        radious: Number((Math.random() * 3 + 1).toFixed(2))
     });
 
     useEffect(() => {
@@ -27,16 +28,13 @@ function page() {
 
         handleResizing();
 
-        console.log(data);
-        
-
         window.addEventListener("resize", handleResizing);
 
         return window.removeEventListener("resize", handleResizing);
     }, [data]);
 
     return (
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", width: sendProps.width, height: sendProps.height }}>
             {toggle ? (
                 <ControlBar toggler={() => {setToggle(false)}} data={data} setData={setData} />
             ) : (
