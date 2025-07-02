@@ -24,6 +24,7 @@ export default function EffectProvider({
     customShape = "circle",
     customImageSrc,
     fps,
+    radious,
     hoverColor,
     layer,
     children,
@@ -57,7 +58,7 @@ export default function EffectProvider({
         );
         
 
-        flake.generateFlakes(count, direction, width, height);
+        flake.generateFlakes(count, direction, width, radious, height);
         flake.move({
             mouseRepel,
             gravity,
@@ -82,6 +83,7 @@ export default function EffectProvider({
         bgColor,
         mouseRepel,
         gravity,
+        radious,
         edgeBehavior,
         customShape,
         customImageSrc,
