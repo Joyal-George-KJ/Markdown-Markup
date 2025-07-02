@@ -149,3 +149,14 @@ input[type="number"] {
         left: auto;
     }
 }
+
+
+.code-group {
+    background-color: #262626;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.code-group:not(:first-child) {
+    margin-top: 1rem;
+}
